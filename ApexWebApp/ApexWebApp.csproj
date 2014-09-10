@@ -75,200 +75,200 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Address.cs">
+    <Compile Include="EntityFramework\Address.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="AddressType.cs">
+    <Compile Include="EntityFramework\AddressType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="AWBuildVersion.cs">
+    <Compile Include="EntityFramework\AWBuildVersion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="BillOfMaterial.cs">
+    <Compile Include="EntityFramework\BillOfMaterial.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="BusinessEntity.cs">
+    <Compile Include="EntityFramework\BusinessEntity.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="BusinessEntityAddress.cs">
+    <Compile Include="EntityFramework\BusinessEntityAddress.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="BusinessEntityContact.cs">
+    <Compile Include="EntityFramework\BusinessEntityContact.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ContactType.cs">
+    <Compile Include="EntityFramework\ContactType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="CountryRegion.cs">
+    <Compile Include="EntityFramework\CountryRegion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="CountryRegionCurrency.cs">
+    <Compile Include="EntityFramework\CountryRegionCurrency.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="CreditCard.cs">
+    <Compile Include="EntityFramework\CreditCard.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Culture.cs">
+    <Compile Include="EntityFramework\Culture.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Currency.cs">
+    <Compile Include="EntityFramework\Currency.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="CurrencyRate.cs">
+    <Compile Include="EntityFramework\CurrencyRate.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Customer.cs">
+    <Compile Include="EntityFramework\Customer.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseLog.cs">
+    <Compile Include="EntityFramework\DatabaseLog.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Department.cs">
+    <Compile Include="EntityFramework\Department.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="EmailAddress.cs">
+    <Compile Include="EntityFramework\EmailAddress.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Employee.cs">
+    <Compile Include="EntityFramework\Employee.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="EmployeeDepartmentHistory.cs">
+    <Compile Include="EntityFramework\EmployeeDepartmentHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="EmployeePayHistory.cs">
+    <Compile Include="EntityFramework\EmployeePayHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ErrorLog.cs">
+    <Compile Include="EntityFramework\ErrorLog.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Illustration.cs">
+    <Compile Include="EntityFramework\Illustration.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="JobCandidate.cs">
+    <Compile Include="EntityFramework\JobCandidate.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Location.cs">
+    <Compile Include="EntityFramework\Location.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model1.Context.cs">
+    <Compile Include="EntityFramework\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model1.cs">
+    <Compile Include="EntityFramework\Model1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model1.Designer.cs">
+    <Compile Include="EntityFramework\Model1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Password.cs">
+    <Compile Include="EntityFramework\Password.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Person.cs">
+    <Compile Include="EntityFramework\Person.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="PersonCreditCard.cs">
+    <Compile Include="EntityFramework\PersonCreditCard.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="PersonPhone.cs">
+    <Compile Include="EntityFramework\PersonPhone.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="PhoneNumberType.cs">
+    <Compile Include="EntityFramework\PhoneNumberType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Product.cs">
+    <Compile Include="EntityFramework\Product.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductCategory.cs">
+    <Compile Include="EntityFramework\ProductCategory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductCostHistory.cs">
+    <Compile Include="EntityFramework\ProductCostHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductDescription.cs">
+    <Compile Include="EntityFramework\ProductDescription.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductDocument.cs">
+    <Compile Include="EntityFramework\ProductDocument.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductInventory.cs">
+    <Compile Include="EntityFramework\ProductInventory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductListPriceHistory.cs">
+    <Compile Include="EntityFramework\ProductListPriceHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductModel.cs">
+    <Compile Include="EntityFramework\ProductModel.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductModelIllustration.cs">
+    <Compile Include="EntityFramework\ProductModelIllustration.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductModelProductDescriptionCulture.cs">
+    <Compile Include="EntityFramework\ProductModelProductDescriptionCulture.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductPhoto.cs">
+    <Compile Include="EntityFramework\ProductPhoto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductProductPhoto.cs">
+    <Compile Include="EntityFramework\ProductProductPhoto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductReview.cs">
+    <Compile Include="EntityFramework\ProductReview.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductSubcategory.cs">
+    <Compile Include="EntityFramework\ProductSubcategory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductVendor.cs">
+    <Compile Include="EntityFramework\ProductVendor.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PurchaseOrderDetail.cs">
+    <Compile Include="EntityFramework\PurchaseOrderDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="PurchaseOrderHeader.cs">
+    <Compile Include="EntityFramework\PurchaseOrderHeader.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SalesOrderDetail.cs">
+    <Compile Include="EntityFramework\SalesOrderDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SalesOrderHeader.cs">
+    <Compile Include="EntityFramework\SalesOrderHeader.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SalesOrderHeaderSalesReason.cs">
+    <Compile Include="EntityFramework\SalesOrderHeaderSalesReason.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SalesPerson.cs">
+    <Compile Include="EntityFramework\SalesPerson.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SalesPersonQuotaHistory.cs">
+    <Compile Include="EntityFramework\SalesPersonQuotaHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SalesReason.cs">
+    <Compile Include="EntityFramework\SalesReason.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SalesTaxRate.cs">
+    <Compile Include="EntityFramework\SalesTaxRate.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SalesTerritory.cs">
+    <Compile Include="EntityFramework\SalesTerritory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SalesTerritoryHistory.cs">
+    <Compile Include="EntityFramework\SalesTerritoryHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScrapReason.cs">
+    <Compile Include="EntityFramework\ScrapReason.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Shift.cs">
+    <Compile Include="EntityFramework\Shift.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ShipMethod.cs">
+    <Compile Include="EntityFramework\ShipMethod.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ShoppingCartItem.cs">
+    <Compile Include="EntityFramework\ShoppingCartItem.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Site.aspx.cs">
@@ -278,52 +278,52 @@
     <Compile Include="Site.aspx.designer.cs">
       <DependentUpon>Site.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SpecialOffer.cs">
+    <Compile Include="EntityFramework\SpecialOffer.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SpecialOfferProduct.cs">
+    <Compile Include="EntityFramework\SpecialOfferProduct.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="StateProvince.cs">
+    <Compile Include="EntityFramework\StateProvince.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Store.cs">
+    <Compile Include="EntityFramework\Store.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="TransactionHistory.cs">
+    <Compile Include="EntityFramework\TransactionHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="TransactionHistoryArchive.cs">
+    <Compile Include="EntityFramework\TransactionHistoryArchive.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="UnitMeasure.cs">
+    <Compile Include="EntityFramework\UnitMeasure.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Vendor.cs">
+    <Compile Include="EntityFramework\Vendor.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="WorkOrder.cs">
+    <Compile Include="EntityFramework\WorkOrder.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="WorkOrderRouting.cs">
+    <Compile Include="EntityFramework\WorkOrderRouting.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <EntityDeploy Include="Model1.edmx">
+    <EntityDeploy Include="EntityFramework\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Model1.Context.tt">
+    <Content Include="EntityFramework\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Model1.edmx.diagram">
+    <Content Include="EntityFramework\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Model1.tt">
+    <Content Include="EntityFramework\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
