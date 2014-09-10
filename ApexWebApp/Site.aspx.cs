@@ -11,8 +11,6 @@ using System.Diagnostics;
 
 namespace jabapp {
 	public partial class Site : System.Web.UI.Page {
-		
-
 
 		protected void Page_Load(object sender, EventArgs e) {
 			if (!Page.IsPostBack) {
@@ -21,8 +19,9 @@ namespace jabapp {
 				DateTime defaultStart = defaults[0];
 				DateTime defaultEnd = defaults[1];
 				setSelectedDates(defaultStart, defaultEnd);
-				//getSalesBetweenDates(defaultStart, defaultEnd);
-			}
+				TextBoxStartDate.Text = defaultStart.ToShortDateString();
+				TextBoxEndDate.Text = defaultStart.ToShortDateString();
+			} 
 		}
 
 		private void setSelectedDates(DateTime start, DateTime end) {
@@ -30,6 +29,9 @@ namespace jabapp {
 			CalDateSelector.SelectedDate = start;
 			CalDateSelector.SelectedDates.Add(end);
 		}
+
+
+
 
 		/// <summary>
 		/// Creates datetimes representing the first and last days of the given month (as specificed by userDate). 
@@ -100,11 +102,26 @@ namespace jabapp {
 
 						multipleItems = true;
 					}
-					Debug.Print("sdfsd");
 				}//outer for
 			}//using
 			db.Dispose();
 			return table;
 		}//method
+
+		protected void CalDateSelector_SelectionChanged(object sender, EventArgs e) {
+			if(TextBoxStartDate.Text.Length > 1 && TextBoxEndDate.Text.Length > 1){
+				TextBoxStartDate.Text = "";
+				TextBoxEndDate.Text = "";
+			}
+
+			if (TextBoxStartDate.Text.Length < 1) {
+				TextBoxStartDate.Text = CalDateSelector.SelectedDate.ToShortDateString();
+			} else {
+				TextBoxEndDate.Text = CalDateSelector.SelectedDate.ToShortDateString();
+				CalDateSelector.SelectedDates.Add(DateTime.Parse(TextBoxEndDate.Text));
+			}
+			CalDateSelector.SelectedDates.Add(DateTime.Parse(TextBoxStartDate.Text));
+		}
+
 	}//class
 }//namespace

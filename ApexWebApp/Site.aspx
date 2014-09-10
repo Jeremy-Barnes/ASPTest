@@ -11,7 +11,17 @@
     <div>
     
     </div>
-        <asp:Calendar ID="CalDateSelector" runat="server" Height="244px" Width="532px"></asp:Calendar>
+        <asp:Calendar ID="CalDateSelector" runat="server" Height="244px" Width="532px" OnSelectionChanged="CalDateSelector_SelectionChanged"></asp:Calendar>
+        <p>
+            Start Date:</p>
+        <p>
+            <asp:TextBox ID="TextBoxStartDate" runat="server"></asp:TextBox>
+        </p>
+        <p>
+            End Date:</p>
+        <asp:TextBox ID="TextBoxEndDate" runat="server"></asp:TextBox>
+        <p>
+            &nbsp;</p>
     </form>
 </body>
 </html>
