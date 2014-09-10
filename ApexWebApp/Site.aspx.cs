@@ -30,8 +30,32 @@ namespace jabapp {
 			CalDateSelector.SelectedDates.Add(end);
 		}
 
+		protected void CalDateSelector_SelectionChanged(object sender, EventArgs e) {
+			if (TextBoxStartDate.Text.Length > 1 && TextBoxEndDate.Text.Length > 1) {
+				TextBoxStartDate.Text = "";
+				TextBoxEndDate.Text = "";
+				ButtonSubmit.Enabled = false;
+				ButtonExport.Enabled = false;
+			}
 
+			if (TextBoxStartDate.Text.Length < 1) {
+				TextBoxStartDate.Text = CalDateSelector.SelectedDate.ToShortDateString();
+			} else {
+				TextBoxEndDate.Text = CalDateSelector.SelectedDate.ToShortDateString();
+				CalDateSelector.SelectedDates.Add(DateTime.Parse(TextBoxEndDate.Text));
+				ButtonSubmit.Enabled = true;
+				ButtonExport.Enabled = true;
+			}
+			CalDateSelector.SelectedDates.Add(DateTime.Parse(TextBoxStartDate.Text));
+		}
 
+		protected void ButtonSubmit_Click(object sender, EventArgs e) {
+
+		}
+
+		protected void ButtonExport_Click(object sender, EventArgs e) {
+
+		}
 
 		/// <summary>
 		/// Creates datetimes representing the first and last days of the given month (as specificed by userDate). 
@@ -106,22 +130,9 @@ namespace jabapp {
 			}//using
 			db.Dispose();
 			return table;
-		}//method
+		}//Method
 
-		protected void CalDateSelector_SelectionChanged(object sender, EventArgs e) {
-			if(TextBoxStartDate.Text.Length > 1 && TextBoxEndDate.Text.Length > 1){
-				TextBoxStartDate.Text = "";
-				TextBoxEndDate.Text = "";
-			}
 
-			if (TextBoxStartDate.Text.Length < 1) {
-				TextBoxStartDate.Text = CalDateSelector.SelectedDate.ToShortDateString();
-			} else {
-				TextBoxEndDate.Text = CalDateSelector.SelectedDate.ToShortDateString();
-				CalDateSelector.SelectedDates.Add(DateTime.Parse(TextBoxEndDate.Text));
-			}
-			CalDateSelector.SelectedDates.Add(DateTime.Parse(TextBoxStartDate.Text));
-		}
 
 	}//class
 }//namespace
