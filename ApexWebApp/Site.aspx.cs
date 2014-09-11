@@ -12,23 +12,32 @@ using System.Diagnostics;
 namespace jabapp {
 	public partial class Site : System.Web.UI.Page {
 
+		private ArrayList queryTable;
+
 		protected void Page_Load(object sender, EventArgs e) {
 			if (!Page.IsPostBack) {
 				//assume user is interested in last month's sales
-				DateTime[] defaults = generateDefaultDates(System.DateTime.Now.AddMonths(-1));
+				DateTime[] defaults = generateDefaultDates(System.DateTime.Now.AddMonths(-1).AddYears(-6));
 				DateTime defaultStart = defaults[0];
 				DateTime defaultEnd = defaults[1];
-				setSelectedDates(defaultStart, defaultEnd);
+				CalDateSelector.VisibleDate = defaultStart;
+				CalDateSelector.SelectedDate = defaultStart;
+				CalDateSelector.SelectedDates.Add(defaultEnd);
 				TextBoxStartDate.Text = defaultStart.ToShortDateString();
-				TextBoxEndDate.Text = defaultStart.ToShortDateString();
-			} 
-		}
+				TextBoxEndDate.Text = defaultEnd.ToShortDateString();
+			} else {
+				if (CalDateSelector.SelectedDates.Count == 2) {
+					DateTime date = CalDateSelector.SelectedDates[0];
+					DateTime date2 = CalDateSelector.SelectedDates[1];
 
-		private void setSelectedDates(DateTime start, DateTime end) {
-			CalDateSelector.VisibleDate = start;
-			CalDateSelector.SelectedDate = start;
-			CalDateSelector.SelectedDates.Add(end);
-		}
+					if (date.CompareTo(date2) == -1) {
+						queryTable = getSalesBetweenDates(date, date2);
+					} else {
+						queryTable = getSalesBetweenDates(date2, date);
+					}
+				}
+			}//postback
+		}//method
 
 		protected void CalDateSelector_SelectionChanged(object sender, EventArgs e) {
 			if (TextBoxStartDate.Text.Length > 1 && TextBoxEndDate.Text.Length > 1) {
@@ -40,17 +49,33 @@ namespace jabapp {
 
 			if (TextBoxStartDate.Text.Length < 1) {
 				TextBoxStartDate.Text = CalDateSelector.SelectedDate.ToShortDateString();
+				CalDateSelector.SelectedDates.Add(DateTime.Parse(TextBoxStartDate.Text));
 			} else {
 				TextBoxEndDate.Text = CalDateSelector.SelectedDate.ToShortDateString();
-				CalDateSelector.SelectedDates.Add(DateTime.Parse(TextBoxEndDate.Text));
+				DateTime startDate = DateTime.Parse(TextBoxStartDate.Text);
+				DateTime endDate = DateTime.Parse(TextBoxEndDate.Text);
+				CalDateSelector.SelectedDates.Add(startDate);
+				CalDateSelector.SelectedDates.Add(endDate);
 				ButtonSubmit.Enabled = true;
 				ButtonExport.Enabled = true;
 			}
-			CalDateSelector.SelectedDates.Add(DateTime.Parse(TextBoxStartDate.Text));
 		}
 
 		protected void ButtonSubmit_Click(object sender, EventArgs e) {
 
+			for (int i = 0; i < 15; i++) {
+				TableRow row = new TableRow();
+				if(i > queryTable.Count){
+					break;
+				} else {
+					foreach (String cellString in (String[])queryTable[i]) {
+						TableCell cell = new TableCell();
+						cell.Text = cellString;
+						row.Cells.Add(cell);
+					}
+					OutputTable.Rows.Add(row);	
+				}
+			}
 		}
 
 		protected void ButtonExport_Click(object sender, EventArgs e) {
@@ -87,6 +112,9 @@ namespace jabapp {
 		public static ArrayList getSalesBetweenDates(DateTime start, DateTime end) {
 			AdventureWorksDB db = new AdventureWorksDB();
 			ArrayList table = new ArrayList();
+			String[] headers = {"Sold At", "Sold To", "Account Number", "Invoice #", "Customer PO #", 
+								   "Order Date", "Due Date", "Invoice Total", "Product Number", "Order Qty", "Unit Net", "Line Total"};
+			table.Add(headers);
 			using (db) {
 
 				IQueryable<SalesOrderHeader> salesQuery = from purchase in db.SalesOrderHeaders
@@ -105,9 +133,9 @@ namespace jabapp {
 					row[2] = purchase.AccountNumber;
 					row[3] = purchase.SalesOrderID.ToString(); //TODO - find the invoice number, I think this is the wrong field
 					row[4] = purchase.PurchaseOrderNumber;
-					row[5] = purchase.OrderDate.ToString();
-					row[6] = purchase.DueDate.ToString();
-					row[7] = purchase.TotalDue.ToString();
+					row[5] = purchase.OrderDate.ToShortDateString();
+					row[6] = purchase.DueDate.ToShortDateString();
+					row[7] =  string.Format("{0:C}",purchase.TotalDue);
 
 					bool multipleItems = false;
 					foreach (SalesOrderDetail item in purchase.SalesOrderDetails) {
@@ -119,8 +147,9 @@ namespace jabapp {
 						}
 						aliasRow[8] = item.ProductID.ToString(); //TODO - find the product number, this is the wrong field
 						aliasRow[9] = item.OrderQty.ToString();
-						aliasRow[10] = (item.OrderQty * item.UnitPrice * item.UnitPriceDiscount).ToString();
-						aliasRow[11] = item.LineTotal.ToString(); //11 and 10 must match
+						//apply discount, format as currency
+						aliasRow[10] = string.Format("{0:C}", (item.OrderQty * (item.UnitPrice - (item.UnitPrice * item.UnitPriceDiscount)))); 
+						aliasRow[11] = string.Format("{0:C}",item.LineTotal); //11 and 10 must match
 
 						table.Add(aliasRow);
 

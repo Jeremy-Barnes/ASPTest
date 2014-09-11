@@ -28,8 +28,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Button ID="ButtonExport" runat="server" OnClick="ButtonExport_Click" Text="Export" />
         </p>
-        <p>
-            &nbsp;</p>
+        <asp:Table ID="OutputTable" runat="server" BorderStyle="Solid" Height="381px" Width="1057px">
+        </asp:Table>
     </form>
 </body>
 </html>
