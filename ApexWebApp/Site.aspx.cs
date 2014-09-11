@@ -10,6 +10,7 @@ using System.Collections;
 using System.Diagnostics;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using System.IO;
 
 namespace jabapp {
 	public partial class Site : System.Web.UI.Page {
@@ -74,11 +75,29 @@ namespace jabapp {
 			ArrayList queryTable = getSalesBetweenDates(CalDateSelector.SelectedDates[0], CalDateSelector.SelectedDates[1], -1);
 			ExcelPackage excel = new ExcelPackage();
 			ExcelWorkbook activeWorkbook = excel.Workbook;
-			ExcelWorksheet activeSheet = activeWorkbook.Worksheets.Add("Invoice Report"); 
-			
-			
+			ExcelWorksheet activeSheet = activeWorkbook.Worksheets.Add("Invoice Report");
+			String accountingStyle = activeWorkbook.CreateAccountingFormat();
+			String normalStyle = "Normal";
 
+			SalesRecord[] data = new SalesRecord[queryTable.Count - 1];
+			for (int i = 1; i < queryTable.Count; i++) {
+				String[] row = (String[])queryTable[i];
+				data[i - 1] = new SalesRecord {
+					SoldAt = row[0], SoldTo = row[1], AcctNo = row[2], InvoiceNo = row[3], CustomerPONo = row[4], OrderDate = row[5],
+					DueDate = row[6], InvoiceTotal = row[7], ProductNo = row[8], OrderQTY = row[9], UnitNet = row[10], LineTotal = row[11] };
+			} //for
 
+			Column[] columns = new Column[((String[])queryTable[0]).Length];
+			for (int i = 0; i < columns.Length; i++) {
+				String style = ((String[])queryTable[0])[i].Contains("Total") || ((String[])queryTable[0])[i].Contains("Net") ? accountingStyle : normalStyle;
+				columns[i] = new Column { Title = ((String[])queryTable[0])[i], Style = style, Action = j => j.SoldAt, }; //TODO - fix this delegate
+			}
+
+			activeSheet.SaveData(columns, data);
+			
+			File.WriteAllBytes("..\\..\\Newest.xlsx", excel.GetAsByteArray());
+			FileStream fs = File.Open("..\\..\\Newest.xlsx", FileMode.Open);
+			bool x = fs.CanRead;
 		}
 
 		/// <summary>

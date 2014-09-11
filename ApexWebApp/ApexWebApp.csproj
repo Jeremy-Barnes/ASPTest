@@ -78,6 +78,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Column.cs" />
     <Compile Include="EntityFramework\Address.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
