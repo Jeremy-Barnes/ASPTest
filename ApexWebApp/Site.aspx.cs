@@ -11,13 +11,10 @@ using System.Diagnostics;
 
 namespace jabapp {
 	public partial class Site : System.Web.UI.Page {
-
-		private ArrayList queryTable;
-
 		protected void Page_Load(object sender, EventArgs e) {
 			if (!Page.IsPostBack) {
 				//assume user is interested in last month's sales
-				DateTime[] defaults = generateDefaultDates(System.DateTime.Now.AddMonths(-1).AddYears(-6));
+				DateTime[] defaults = generateDefaultDates(System.DateTime.Now.AddMonths(-1).AddYears(-8));
 				DateTime defaultStart = defaults[0];
 				DateTime defaultEnd = defaults[1];
 				CalDateSelector.VisibleDate = defaultStart;
@@ -25,19 +22,8 @@ namespace jabapp {
 				CalDateSelector.SelectedDates.Add(defaultEnd);
 				TextBoxStartDate.Text = defaultStart.ToShortDateString();
 				TextBoxEndDate.Text = defaultEnd.ToShortDateString();
-			} else {
-				if (CalDateSelector.SelectedDates.Count == 2) {
-					DateTime date = CalDateSelector.SelectedDates[0];
-					DateTime date2 = CalDateSelector.SelectedDates[1];
-
-					if (date.CompareTo(date2) == -1) {
-						queryTable = getSalesBetweenDates(date, date2);
-					} else {
-						queryTable = getSalesBetweenDates(date2, date);
-					}
-				}
-			}//postback
-		}//method
+			}
+		}
 
 		protected void CalDateSelector_SelectionChanged(object sender, EventArgs e) {
 			if (TextBoxStartDate.Text.Length > 1 && TextBoxEndDate.Text.Length > 1) {
@@ -62,10 +48,14 @@ namespace jabapp {
 		}
 
 		protected void ButtonSubmit_Click(object sender, EventArgs e) {
+			if (CalDateSelector.SelectedDates.Count != 2) {
+				return; //shouldn't ever happen, but better safe than sorry.
+			}
+			ArrayList queryTable = getSalesBetweenDates(CalDateSelector.SelectedDates[0], CalDateSelector.SelectedDates[1], 15);
 
 			for (int i = 0; i < 15; i++) {
 				TableRow row = new TableRow();
-				if(i > queryTable.Count){
+				if(i >= queryTable.Count){
 					break;
 				} else {
 					foreach (String cellString in (String[])queryTable[i]) {
@@ -79,7 +69,7 @@ namespace jabapp {
 		}
 
 		protected void ButtonExport_Click(object sender, EventArgs e) {
-
+			ArrayList queryTable = getSalesBetweenDates(CalDateSelector.SelectedDates[0], CalDateSelector.SelectedDates[1], 15);
 		}
 
 		/// <summary>
@@ -108,8 +98,15 @@ namespace jabapp {
 
 		/// <summary>
 		/// Returns a table of sales between the two given dates - inclusive, [start, end]. Table is an arraylist of String arrays.
+		/// Will only search for recordLimit number of rows, -1 means all records.
 		/// </summary>
-		public static ArrayList getSalesBetweenDates(DateTime start, DateTime end) {
+		public static ArrayList getSalesBetweenDates(DateTime start, DateTime end, int recordLimit) {
+			if (start.CompareTo(end) > 0) { //params in the wrong order
+				DateTime temp = start;
+				start = end;
+				end = temp;
+			}
+			
 			AdventureWorksDB db = new AdventureWorksDB();
 			ArrayList table = new ArrayList();
 			String[] headers = {"Sold At", "Sold To", "Account Number", "Invoice #", "Customer PO #", 
@@ -121,6 +118,7 @@ namespace jabapp {
 															 where purchase.DueDate.CompareTo(start) >= 0 && purchase.DueDate.CompareTo(end) <= 0
 															 select purchase;
 				//O(n^2) isn't the best, but it beats further database trawling.
+				int records = 0;
 				foreach (SalesOrderHeader purchase in salesQuery) {
 					String[] row = new String[12];
 
@@ -130,8 +128,8 @@ namespace jabapp {
 						row[0] = purchase.Customer.Store.Name;
 					}
 					row[1] = purchase.Customer.Person.FirstName + " " + purchase.Customer.Person.LastName;
-					row[2] = purchase.AccountNumber;
-					row[3] = purchase.SalesOrderID.ToString(); //TODO - find the invoice number, I think this is the wrong field
+					row[2] = purchase.Customer.AccountNumber;
+					row[3] = purchase.SalesOrderNumber;
 					row[4] = purchase.PurchaseOrderNumber;
 					row[5] = purchase.OrderDate.ToShortDateString();
 					row[6] = purchase.DueDate.ToShortDateString();
@@ -145,7 +143,8 @@ namespace jabapp {
 						} else {
 							aliasRow = new String[12];
 						}
-						aliasRow[8] = item.ProductID.ToString(); //TODO - find the product number, this is the wrong field
+						//find matching product, get product number (use first element only because there shouldn't be duplicated ProductIDs)
+						aliasRow[8] = (from product in db.Products where product.ProductID == item.ProductID select product.ProductNumber).ToArray()[0];
 						aliasRow[9] = item.OrderQty.ToString();
 						//apply discount, format as currency
 						aliasRow[10] = string.Format("{0:C}", (item.OrderQty * (item.UnitPrice - (item.UnitPrice * item.UnitPriceDiscount)))); 
@@ -154,6 +153,13 @@ namespace jabapp {
 						table.Add(aliasRow);
 
 						multipleItems = true;
+						records++;
+						if (recordLimit > 0 && records >= recordLimit) {
+							break;
+						}
+					}
+					if (recordLimit > 0 && records >= recordLimit) {
+						break;
 					}
 				}//outer for
 			}//using
