@@ -40,38 +40,5 @@ namespace jabapp {
 				default: return "Iterator Error";
 			}
 		}
-
-		public string getProp(String i) {
-			switch (i) {
-				case "Sold At":
-					return SoldAt;
-				case "Sold To":
-					return SoldTo;
-				case "Account Number":
-					return AcctNo;
-				case "Invoice #":
-					return InvoiceNo;
-				case "Customer PO #":
-					return CustomerPONo;
-				case "Order Date":
-					return OrderDate;
-				case "Due Date":
-					return DueDate;
-				case "Invoice Total":
-					return InvoiceTotal;
-				case "Product Number":
-					return ProductNo;
-				case "Order Qty":
-					return OrderQTY;
-				case "Unit Net":
-					return UnitNet;
-				case "Line Total":
-					return LineTotal;
-				default:
-					return i;
-			}
-		}
-
-		
 	}
 }
