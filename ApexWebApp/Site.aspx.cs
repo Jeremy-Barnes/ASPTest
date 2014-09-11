@@ -8,6 +8,8 @@ using System.Data.Entity;
 using jabapp.EntityFramework;
 using System.Collections;
 using System.Diagnostics;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace jabapp {
 	public partial class Site : System.Web.UI.Page {
@@ -65,11 +67,18 @@ namespace jabapp {
 					}
 					OutputTable.Rows.Add(row);	
 				}
-			}
-		}
+			}//for
+		}//method
 
 		protected void ButtonExport_Click(object sender, EventArgs e) {
-			ArrayList queryTable = getSalesBetweenDates(CalDateSelector.SelectedDates[0], CalDateSelector.SelectedDates[1], 15);
+			ArrayList queryTable = getSalesBetweenDates(CalDateSelector.SelectedDates[0], CalDateSelector.SelectedDates[1], -1);
+			ExcelPackage excel = new ExcelPackage();
+			ExcelWorkbook activeWorkbook = excel.Workbook;
+			ExcelWorksheet activeSheet = activeWorkbook.Worksheets.Add("Invoice Report"); 
+			
+			
+
+
 		}
 
 		/// <summary>
@@ -151,8 +160,7 @@ namespace jabapp {
 						aliasRow[11] = string.Format("{0:C}",item.LineTotal); //11 and 10 must match
 
 						table.Add(aliasRow);
-
-						multipleItems = true;
+						multipleItems = true; //multiple items on one invoice has special printing rules
 						records++;
 						if (recordLimit > 0 && records >= recordLimit) {
 							break;
@@ -166,8 +174,6 @@ namespace jabapp {
 			db.Dispose();
 			return table;
 		}//Method
-
-
 
 	}//class
 }//namespace
