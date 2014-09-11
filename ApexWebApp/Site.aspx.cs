@@ -29,7 +29,7 @@ namespace jabapp {
 		}
 
 		protected void CalDateSelector_SelectionChanged(object sender, EventArgs e) {
-			if (TextBoxStartDate.Text.Length > 1 && TextBoxEndDate.Text.Length > 1) {
+			if (TextBoxStartDate.Text.Length > 1 && TextBoxEndDate.Text.Length > 1) { //adding a third selection -> clear all
 				TextBoxStartDate.Text = "";
 				TextBoxEndDate.Text = "";
 				ButtonSubmit.Enabled = false;
@@ -51,23 +51,18 @@ namespace jabapp {
 		}
 
 		protected void ButtonSubmit_Click(object sender, EventArgs e) {
-			if (CalDateSelector.SelectedDates.Count != 2) {
-				return; //shouldn't ever happen, but better safe than sorry.
-			}
-			ArrayList queryTable = getSalesBetweenDates(CalDateSelector.SelectedDates[0], CalDateSelector.SelectedDates[1], 15);
+			if (CalDateSelector.SelectedDates.Count != 2) { return; } //shouldn't ever happen, but better safe than sorry
 
-			for (int i = 0; i < 15; i++) {
+			ArrayList queryTable = getSalesBetweenDates(CalDateSelector.SelectedDates[0], CalDateSelector.SelectedDates[1], 15);
+			//write all the results to a table
+			for (int i = 0; i < queryTable.Count; i++) {
 				TableRow row = new TableRow();
-				if(i >= queryTable.Count){
-					break;
-				} else {
-					foreach (String cellString in (String[])queryTable[i]) {
-						TableCell cell = new TableCell();
-						cell.Text = cellString;
-						row.Cells.Add(cell);
-					}
-					OutputTable.Rows.Add(row);	
+				foreach (String cellString in (String[])queryTable[i]) {
+					TableCell cell = new TableCell();
+					cell.Text = cellString;
+					row.Cells.Add(cell);
 				}
+				OutputTable.Rows.Add(row);	
 			}//for
 		}//method
 
@@ -85,19 +80,18 @@ namespace jabapp {
 				data[i - 1] = new SalesRecord {
 					SoldAt = row[0], SoldTo = row[1], AcctNo = row[2], InvoiceNo = row[3], CustomerPONo = row[4], OrderDate = row[5],
 					DueDate = row[6], InvoiceTotal = row[7], ProductNo = row[8], OrderQTY = row[9], UnitNet = row[10], LineTotal = row[11] };
-			} //for
+			}
 
 			Column[] columns = new Column[((String[])queryTable[0]).Length];
 			for (int i = 0; i < columns.Length; i++) {
 				String style = ((String[])queryTable[0])[i].Contains("Total") || ((String[])queryTable[0])[i].Contains("Net") ? accountingStyle : normalStyle;
-				columns[i] = new Column { Title = ((String[])queryTable[0])[i], Style = style, Action = j => j.SoldAt, }; //TODO - fix this delegate
-			}
+				columns[i] = new Column { Title = ((String[])queryTable[0])[i], Style = style, Action = j => j.iterateProp(), };
+
+
+			}//for
 
 			activeSheet.SaveData(columns, data);
-			
-			File.WriteAllBytes("..\\..\\Newest.xlsx", excel.GetAsByteArray());
-			FileStream fs = File.Open("..\\..\\Newest.xlsx", FileMode.Open);
-			bool x = fs.CanRead;
+			File.WriteAllBytes("..\\..\\Report.xlsx", excel.GetAsByteArray()); //saves to the C Drive. Inelegant, but it works.
 		}
 
 		/// <summary>
@@ -145,9 +139,9 @@ namespace jabapp {
 				IQueryable<SalesOrderHeader> salesQuery = from purchase in db.SalesOrderHeaders
 															 where purchase.DueDate.CompareTo(start) >= 0 && purchase.DueDate.CompareTo(end) <= 0
 															 select purchase;
-				//O(n^2) isn't the best, but it beats further database trawling.
+				
 				int records = 0;
-				foreach (SalesOrderHeader purchase in salesQuery) {
+				foreach (SalesOrderHeader purchase in salesQuery) { //O(n^2) isn't the best, but it beats further database trawling.
 					String[] row = new String[12];
 
 					if (purchase.OnlineOrderFlag) {
@@ -176,7 +170,7 @@ namespace jabapp {
 						aliasRow[9] = item.OrderQty.ToString();
 						//apply discount, format as currency
 						aliasRow[10] = string.Format("{0:C}", (item.OrderQty * (item.UnitPrice - (item.UnitPrice * item.UnitPriceDiscount)))); 
-						aliasRow[11] = string.Format("{0:C}",item.LineTotal); //11 and 10 must match
+						aliasRow[11] = string.Format("{0:C}",item.LineTotal);
 
 						table.Add(aliasRow);
 						multipleItems = true; //multiple items on one invoice has special printing rules
