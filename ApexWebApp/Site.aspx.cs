@@ -17,7 +17,7 @@ namespace jabapp {
 		protected void Page_Load(object sender, EventArgs e) {
 			if (!Page.IsPostBack) {
 				//assume user is interested in last month's sales
-				DateTime[] defaults = generateDefaultDates(System.DateTime.Now.AddMonths(-1).AddYears(-8));
+				DateTime[] defaults = generateDefaultDates(System.DateTime.Now.AddMonths(-1));
 				DateTime defaultStart = defaults[0];
 				DateTime defaultEnd = defaults[1];
 				CalDateSelector.VisibleDate = defaultStart;
